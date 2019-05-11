@@ -1,2 +1,2 @@
 # PRTG
-Some Peassler PRTG Senors
+Some Paessler PRTG Senors
