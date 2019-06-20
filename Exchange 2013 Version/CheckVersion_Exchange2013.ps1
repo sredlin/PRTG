@@ -41,6 +41,7 @@ $CU19 = "15.00.1365.001"
 $CU20 = "15.00.1367.003"
 $CU21 = "15.00.1395.004"
 $CU22 = "15.00.1473.003"
+$CU23 = "15.00.1497.002"
 #endregion
 
 
@@ -77,6 +78,7 @@ $CU19 {"Exchange Server 2013 Cumulative Update 19 (CU19)"}
 $CU20 {"Exchange Server 2013 Cumulative Update 20 (CU20)"}
 $CU21 {"Exchange Server 2013 Cumulative Update 21 (CU21)"}
 $CU22 {"Exchange Server 2013 Cumulative Update 22 (CU22)"}
+$CU23 {"Exchange Server 2013 Cumulative Update 23 (CU23)"}
 default {"Update Sensor with new Exchange Version. Check https://docs.microsoft.com/de-de/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019#exchange-server-2016"}
 }
 #endregion
@@ -197,6 +199,11 @@ Write-Host "<result>"
                if($Version -eq $CU22){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU22</channel>"
+               "<value>$Count</value>"
+               "</result>"
+			   if($Version -eq $CU23){[string]$Count='1'}else{[string]$count='0'}
+Write-Host "<result>"
+               "<channel>Exchange Server 2013 CU23</channel>"
                "<value>$Count</value>"
                "</result>"
 Write-Host "</prtg>" 
