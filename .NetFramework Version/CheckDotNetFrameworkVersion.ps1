@@ -3,13 +3,12 @@
 Paessler PRTG Sensor to check .NetFramework Version
 ===================================================================================
 Autor:        Stefan Redlin
-Script:       CheckDotNetFrameworkVersionV2.ps1
+Script:       CheckDotNetFrameworkVersion.ps1
 Version:      1.0
 Date:         01.05.2019
-Environment:  Windows Server 2016
+Tested Environment:  Windows Server 2012R2/2016
 Scriptpath:   C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\EXEXML
 Scripttype:   EXE/Script Advanced
-$query}
 Used this as a hint https://stackoverflow.com/questions/3487265/powershell-script-to-return-versions-of-net-framework-on-a-machine
 #>
 
@@ -22,8 +21,8 @@ $Server
 #region: Query for .NetFramework Release Number
 $DotNetVersion = Invoke-Command -ComputerName $Server -ScriptBlock {$QueryDotNetVersion =Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -Recurse  |
   Get-ItemProperty -name Version, Release -EA 0 |
- # Where-Object { $_.PSChildName -match '^(?!S)\p{L}'} |
- Where-Object { $_.PSChildName -eq "Full"};$QueryDotNetVersion}4>&1
+# Where-Object { $_.PSChildName -match '^(?!S)\p{L}'} |
+Where-Object { $_.PSChildName -eq "Full"};$QueryDotNetVersion}4>&1
 #endregion
 #region: Version List
 $DotNetRelease45=378389
@@ -69,9 +68,6 @@ $DotNetRelease48 {'4.8'}
 default {"Update Sensor with new .NetVersion Version. Check https://docs.microsoft.com/de-de/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed"}
 }
 #endregion
-
-
-
 
 
 #region: PRTG Output
