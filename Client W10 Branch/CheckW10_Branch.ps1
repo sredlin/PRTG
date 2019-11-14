@@ -23,6 +23,7 @@ $Branch1709 = "*16299*"
 $Branch1803 = "*17134*"
 $Branch1809 = "*17763*" 
 $Branch1903 = "*18362*"
+$Branch1909 = "*18363*"
 #endregion
 
 
@@ -31,7 +32,7 @@ $Branch1903 = "*18362*"
 #region: Generate text for sensor
 [String]$Version = (((Get-ADComputer -Filter {OperatingSystem -Like "Windows 10*"} -Property *))).OperatingSystemVersion |Sort-Object -Descending |Select-Object -First 1
 [String]$Version = $Version.substring(6).TrimEnd(")")
-If($Version -gt $Branch1903.substring(1).TrimEnd("*")){$Text = "Update Sensor with new W10 Version. Check https://docs.microsoft.com/de-de/windows/release-information/";$NewBranch = 1}else{$text = "All W10 Branches are known.";$NewBranch = 0}
+If($Version -gt $Branch1909.substring(1).TrimEnd("*")){$Text = "Update Sensor with new W10 Version. Check https://docs.microsoft.com/de-de/windows/release-information/";$NewBranch = 1}else{$text = "All W10 Branches are known.";$NewBranch = 0}
 #endregion
 
 
@@ -90,6 +91,12 @@ $Count =$Branch1809Count.Count
 $Count =$Branch1903Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1903 Clients</channel>"
+               "<value>$Count</value>"
+               "</result>"
+[array]$Branch1909Count = ((Get-ADComputer -Filter {(OperatingSystem -Like "Windows 10*") -and (OperatingSystemVersion -Like $Branch1909)} -Property *))
+$Count =$Branch1909Count.Count 
+               Write-Host "<result>"
+               "<channel>Branch 1909 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
 ####################################
