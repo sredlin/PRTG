@@ -10,11 +10,11 @@ Environment:  Windows Server 2019/Exchange2019
 Scriptpath:   C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\EXEXML
 Scripttype:   EXE/Script Advanced
 #>
-$ExchangeServer = "srvex01"
+
 #region
-#param(
-#$ExchangeServer
-#)
+param(
+$ExchangeServer
+)
 #endregion
 
 #region: Exchange Version List from https://docs.microsoft.com/de-de/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019#exchange-server-2019
