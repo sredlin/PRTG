@@ -1,11 +1,12 @@
-﻿<#
+ 
+<#
 ===================================================================================
 Paessler PRTG Sensor to check Exchange Server Version
 ===================================================================================
 Autor:        Stefan Redlin
 Script:       CheckVersion_Exchange_2013.ps1
-Version:      1.1
-Date:         01.05.2019
+Version:      1.2
+Date:         21.04.2020
 Environment:  Windows Server 2016/Exchange2016
 Scriptpath:   C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\EXEXML
 Scripttype:   EXE/Script Advanced
@@ -18,6 +19,7 @@ $ExchangeServer
 #endregion
 
 #region: Exchange Version List from https://docs.microsoft.com/de-de/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019#exchange-server-2013
+$Preview = "15.00.0466.013"
 $RTM = "15.00.0516.032"
 $CU1 = "15.00.0620.029"
 $CU2 = "15.00.0712.024"
@@ -42,6 +44,7 @@ $CU20 = "15.00.1367.003"
 $CU21 = "15.00.1395.004"
 $CU22 = "15.00.1473.003"
 $CU23 = "15.00.1497.002"
+
 #endregion
 
 
@@ -50,161 +53,163 @@ $CU23 = "15.00.1497.002"
 $result = Invoke-Command -ComputerName $ExchangeServer -ScriptBlock {$query = Get-Command Exsetup.exe | ForEach-Object {$_.FileVersionInfo}
 $query}
 $Version = $result.FileVersion.ToString()
+$Version = $Version.Substring(0,10)
 #endregion
 
 #region: Generate text for sensor
 $Text= switch ($Version){
 
-$RTM {"Exchange Server 2013 RTM"}
-$CU1 {"Exchange Server 2013 Cumulative Update 1 (CU1)"}
-$CU2 {"Exchange Server 2013 Cumulative Update 2 (CU2)"}
-$CU3 {"Exchange Server 2013 Cumulative Update 3 (CU3)"}
-$CU4 {"Exchange Server 2013 Cumulative Update 4 (CU4)"}
-$CU5 {"Exchange Server 2013 Cumulative Update 5 (CU5)"}
-$CU6 {"Exchange Server 2013 Cumulative Update 6 (CU6)"}
-$CU7 {"Exchange Server 2013 Cumulative Update 7 (CU7)"}
-$CU8 {"Exchange Server 2013 Cumulative Update 8 (CU8)"}
-$CU9 {"Exchange Server 2013 Cumulative Update 9 (CU9)"}
-$CU10 {"Exchange Server 2013 Cumulative Update 10 (CU10)"}
-$CU11 {"Exchange Server 2013 Cumulative Update 11 (CU11)"}
-$CU12 {"Exchange Server 2013 Cumulative Update 12 (CU12)"}
-$CU13 {"Exchange Server 2013 Cumulative Update 13 (CU13)"}
-$CU14 {"Exchange Server 2013 Cumulative Update 14 (CU14)"}
-$CU15 {"Exchange Server 2013 Cumulative Update 15 (CU15)"}
-$CU16 {"Exchange Server 2013 Cumulative Update 16 (CU16)"}
-$CU17 {"Exchange Server 2013 Cumulative Update 17 (CU17)"}
-$CU18 {"Exchange Server 2013 Cumulative Update 18 (CU18)"}
-$CU19 {"Exchange Server 2013 Cumulative Update 19 (CU19)"}
-$CU20 {"Exchange Server 2013 Cumulative Update 20 (CU20)"}
-$CU21 {"Exchange Server 2013 Cumulative Update 21 (CU21)"}
-$CU22 {"Exchange Server 2013 Cumulative Update 22 (CU22)"}
-$CU23 {"Exchange Server 2013 Cumulative Update 23 (CU23)"}
+$RTM.Substring(0,10) {"Exchange Server 2013 RTM"}
+$CU1.Substring(0,10) {"Exchange Server 2013 Cumulative Update 1 (CU1)"}
+$CU2.Substring(0,10) {"Exchange Server 2013 Cumulative Update 2 (CU2)"}
+$CU3.Substring(0,10) {"Exchange Server 2013 Cumulative Update 3 (CU3)"}
+$CU4.Substring(0,10) {"Exchange Server 2013 Cumulative Update 4 (CU4)"}
+$CU5.Substring(0,10) {"Exchange Server 2013 Cumulative Update 5 (CU5)"}
+$CU6.Substring(0,10) {"Exchange Server 2013 Cumulative Update 6 (CU6)"}
+$CU7.Substring(0,10) {"Exchange Server 2013 Cumulative Update 7 (CU7)"}
+$CU8.Substring(0,10) {"Exchange Server 2013 Cumulative Update 8 (CU8)"}
+$CU9.Substring(0,10) {"Exchange Server 2013 Cumulative Update 9 (CU9)"}
+$CU10.Substring(0,10) {"Exchange Server 2013 Cumulative Update 10 (CU10)"}
+$CU11.Substring(0,10) {"Exchange Server 2013 Cumulative Update 11 (CU11)"}
+$CU12.Substring(0,10) {"Exchange Server 2013 Cumulative Update 12 (CU12)"}
+$CU13.Substring(0,10) {"Exchange Server 2013 Cumulative Update 13 (CU13)"}
+$CU14.Substring(0,10) {"Exchange Server 2013 Cumulative Update 14 (CU14)"}
+$CU15.Substring(0,10) {"Exchange Server 2013 Cumulative Update 15 (CU15)"}
+$CU16.Substring(0,10) {"Exchange Server 2013 Cumulative Update 16 (CU16)"}
+$CU17.Substring(0,10) {"Exchange Server 2013 Cumulative Update 17 (CU17)"}
+$CU18.Substring(0,10) {"Exchange Server 2013 Cumulative Update 18 (CU18)"}
+$CU19.Substring(0,10) {"Exchange Server 2013 Cumulative Update 19 (CU19)"}
+$CU20.Substring(0,10) {"Exchange Server 2013 Cumulative Update 20 (CU20)"}
+$CU21.Substring(0,10) {"Exchange Server 2013 Cumulative Update 21 (CU21)"}
+$CU22.Substring(0,10) {"Exchange Server 2013 Cumulative Update 22 (CU22)"}
+$CU23.Substring(0,10) {"Exchange Server 2013 Cumulative Update 23 (CU23)"}
 default {"Update Sensor with new Exchange Version. Check https://docs.microsoft.com/de-de/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019#exchange-server-2016"}
 }
 #endregion
 
 #region: XML Output for PRTG
 Write-Host "<prtg>" 
-                if($Version -eq $RTM){$Count=1}else{$count="0"}
+               if($RTM -match $Version){$Count=1}else{$count="0"}              
 Write-Host "<result>"
                "<channel>Exchange Server 2013 RTM</channel>"
                "<value>$Count</value>"
                "</result>"
                "<text>$Text</text>"
-               if($Version -eq $CU1){$Count=1}else{$count=0}
+               if($CU1 -match $Version){$Count=1}else{$count=0}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU1</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU2){$Count=1}else{$count=0}
+               if($CU2 -match $Version){$Count=1}else{$count=0}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU2</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU3){$Count=1}else{$count=0}
+               if($CU3 -match $Version){$Count=1}else{$count=0}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU3</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU4){$Count=1}else{$count=0}
+               if($CU4 -match $Version){$Count=1}else{$count=0}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU4</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU5){$Count=1}else{$count=0}
+              if($CU5 -match $Version){$Count=1}else{$count=0}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU5</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU6){$Count=1}else{$count=0}
+               if($CU6 -match $Version){$Count=1}else{$count=0}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU6</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU7){$Count='1'}else{$count='0'}
+               if($CU7 -match $Version){$Count='1'}else{$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU7</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU8){$Count='1'}else{$count='0'}
+               if($CU8 -match $Version){$Count='1'}else{$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU8</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU9){$Count='1'}else{$count='0'}
+               if($CU9 -match $Version){$Count='1'}else{$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU9</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU10){$Count='1'}else{$count='0'}
+               if($CU10 -match $Version){$Count='1'}else{$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU10</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU11){$Count='1'}else{$count='0'}
+               if($CU11 -match $Version){$Count='1'}else{$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU11</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU12){$Count='1'}else{$count='0'}
+               if($CU12 -match $Version){$Count='1'}else{$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU12</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU13){[string]$Count='1'}else{[string]$count='0'}
+               if($CU13 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU13</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU14){[string]$Count='1'}else{[string]$count='0'}
+               if($CU14 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU14</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU15){[string]$Count='1'}else{[string]$count='0'}
+               if($CU15 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU15</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU16){[string]$Count='1'}else{[string]$count='0'}
+               if($CU16 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU16</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU17){[string]$Count='1'}else{[string]$count='0'}
+               if($CU17 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU17</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU18){[string]$Count='1'}else{[string]$count='0'}
+               if($CU18 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU18</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU19){[string]$Count='1'}else{[string]$count='0'}
+               if($CU19 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU19</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU20){[string]$Count='1'}else{[string]$count='0'}
+               if($CU20 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU20</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU21){[string]$Count='1'}else{[string]$count='0'}
+               if($CU21 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU21</channel>"
                "<value>$Count</value>"
                "</result>"
-               if($Version -eq $CU22){[string]$Count='1'}else{[string]$count='0'}
+               if($CU22 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU22</channel>"
                "<value>$Count</value>"
                "</result>"
-			   if($Version -eq $CU23){[string]$Count='1'}else{[string]$count='0'}
+			   if($CU23 -match $Version){[string]$Count='1'}else{[string]$count='0'}
 Write-Host "<result>"
                "<channel>Exchange Server 2013 CU23</channel>"
                "<value>$Count</value>"
                "</result>"
 Write-Host "</prtg>" 
 #endregion
+
