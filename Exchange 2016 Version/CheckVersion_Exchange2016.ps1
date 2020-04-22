@@ -3,7 +3,7 @@
 Paessler PRTG Sensor to check Exchange Server Version
 ===================================================================================
 Autor:        Stefan Redlin
-Script:       CheckExchangeVersionV2_2016.ps1
+Script:       CheckExchangeVersion_2016.ps1
 Version:      1.3
 Date:         21.04.2020
 Environment:  Windows Server 2016/Exchange2016
