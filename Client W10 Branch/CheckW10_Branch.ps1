@@ -1,9 +1,9 @@
-﻿<#
+<#
 ===================================================================================
 Paessler PRTG Sensor to check W10 Branch
 ===================================================================================
 Autor:        Stefan Redlin
-Script:       CheckW10_Branch.ps1
+Script:       CheckW10Branch.ps1
 Version:      1.0
 Date:         01.05.2019
 Environment:  Windows Server 2016
@@ -21,9 +21,9 @@ $Branch1607 = "*14393*"
 $Branch1703 = "*15063*"
 $Branch1709 = "*16299*"
 $Branch1803 = "*17134*"
-$Branch1809 = "*17763*" 
+$Branch1809 ="*17763*" 
 $Branch1903 = "*18362*"
-$Branch1909 = "*18363*"
+$Branch1909 ="*18363*"
 #endregion
 
 
