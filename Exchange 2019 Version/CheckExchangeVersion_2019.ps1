@@ -25,6 +25,7 @@ $CU2 = "15.2.397.3"
 $CU3 = "15.2.464.5"
 $CU4 = "15.2.529.5"
 $CU5 = "15.2.595.3"
+$CU6 = "15.2.659.4"
 #endregion
 
 
@@ -45,6 +46,7 @@ $CU2 {"Exchange Server 2019 Cumulative Update 2 (CU2)"}
 $CU3 {"Exchange Server 2019 Cumulative Update 3 (CU3)"}
 $CU4 {"Exchange Server 2019 Cumulative Update 4 (CU4)"}
 $CU5 {"Exchange Server 2019 Cumulative Update 5 (CU5)"}
+$CU6 {"Exchange Server 2019 Cumulative Update 6 (CU6)"}
 
 default {"Update Sensor with new Exchange Version. Check https://docs.microsoft.com/de-de/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019#exchange-server-2019"}
 }
@@ -91,6 +93,11 @@ if($Version -eq $CU4){$Count=1}else{$count=0}
 Write-Host "<result>"
 if($Version -eq $CU5){$Count=1}else{$count=0}
                "<channel>Exchange Server 2019 CU5</channel>"
+               "<value>$Count</value>"
+               "</result>"
+Write-Host "<result>"
+if($Version -eq $CU6){$Count=1}else{$count=0}
+               "<channel>Exchange Server 2019 CU6</channel>"
                "<value>$Count</value>"
                "</result>"
 Write-Host "</prtg>" 
