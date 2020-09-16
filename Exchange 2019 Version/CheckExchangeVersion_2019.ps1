@@ -4,8 +4,8 @@ Paessler PRTG Sensor to check Exchange Server Version
 ===================================================================================
 Autor:        Stefan Redlin
 Script:       CheckExchangeVersion_2019.ps1
-Version:      1.0
-Date:         20.04.2020
+Version:      1.1
+Date:         16.09.2020
 Environment:  Windows Server 2019/Exchange2019
 Scriptpath:   C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\EXEXML
 Scripttype:   EXE/Script Advanced
@@ -26,12 +26,13 @@ $CU3 = "15.2.464.5"
 $CU4 = "15.2.529.5"
 $CU5 = "15.2.595.3"
 $CU6 = "15.2.659.4"
+$CU7 = "15.2.721.2"
 #endregion
 
 
 
 #region Query Exchange Server for Version
-$result = Invoke-Command -ComputerName $ExchangeServer -ScriptBlock {$query = Get-Command Exsetup.exe | select Version
+$result = Invoke-Command -ComputerName $ExchangeServer -ScriptBlock {$query = Get-Command Exsetup.exe | Select-Object Version
 $query}
 $Version = $result.version.ToString()
 #endregion
@@ -47,6 +48,7 @@ $CU3 {"Exchange Server 2019 Cumulative Update 3 (CU3)"}
 $CU4 {"Exchange Server 2019 Cumulative Update 4 (CU4)"}
 $CU5 {"Exchange Server 2019 Cumulative Update 5 (CU5)"}
 $CU6 {"Exchange Server 2019 Cumulative Update 6 (CU6)"}
+$CU7 {"Exchange Server 2019 Cumulative Update 7 (CU7)"}
 
 default {"Update Sensor with new Exchange Version. Check https://docs.microsoft.com/de-de/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019#exchange-server-2019"}
 }
@@ -98,6 +100,11 @@ if($Version -eq $CU5){$Count=1}else{$count=0}
 Write-Host "<result>"
 if($Version -eq $CU6){$Count=1}else{$count=0}
                "<channel>Exchange Server 2019 CU6</channel>"
+               "<value>$Count</value>"
+               "</result>"
+Write-Host "<result>"
+if($Version -eq $CU7){$Count=1}else{$count=0}
+               "<channel>Exchange Server 2019 CU7</channel>"
                "<value>$Count</value>"
                "</result>"
 Write-Host "</prtg>" 
