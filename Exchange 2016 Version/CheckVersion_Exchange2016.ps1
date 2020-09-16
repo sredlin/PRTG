@@ -4,8 +4,8 @@ Paessler PRTG Sensor to check Exchange Server Version
 ===================================================================================
 Autor:        Stefan Redlin
 Script:       CheckExchangeVersion_2016.ps1
-Version:      1.3
-Date:         17.06.2020
+Version:      1.5
+Date:         16.09.2020
 Environment:  Windows Server 2016/Exchange2016
 Scriptpath:   C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\EXEXML
 Scripttype:   EXE/Script Advanced
@@ -37,6 +37,7 @@ $CU14 = "15.1.1847.3"
 $CU15 = "15.1.1913.5"
 $CU16 = "15.1.1979.3"
 $CU17 = "15.1.2044.4"
+$CU18 = "15.1.2106.2"
 #endregion
 
 
@@ -70,6 +71,7 @@ $CU14.Substring(0,10) {"Exchange Server 2016 Cumulative Update 14 (CU14)"}
 $CU15.Substring(0,10) {"Exchange Server 2016 Cumulative Update 15 (CU15)"}
 $CU16.Substring(0,10) {"Exchange Server 2016 Cumulative Update 16 (CU16)"}
 $CU17.Substring(0,10) {"Exchange Server 2016 Cumulative Update 17 (CU17)"}
+$CU18.Substring(0,10) {"Exchange Server 2016 Cumulative Update 18 (CU18)"}
 default {"Update Sensor with new Exchange Version. Check https://docs.microsoft.com/de-de/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019#exchange-server-2016"}
 }
 #endregion
@@ -173,5 +175,10 @@ Write-Host "<result>"
                "<channel>Exchange Server 2016 CU17</channel>"
                "<value>$Count</value>"
                "</result>"
+               if($CU18 -match $Version){$Count=1}else{$count=0}
+Write-Host "<result>"
+                "<channel>Exchange Server 2016 CU18</channel>"
+                "<value>$Count</value>"
+                "</result>"
 Write-Host "</prtg>" 
 #endregion
