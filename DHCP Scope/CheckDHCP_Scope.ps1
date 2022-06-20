@@ -42,7 +42,7 @@ foreach ($scope in $dhcpScopeStats)
         <value>  $($scope.AddressesFree) </value>                           
     </result>
     <result>
-        <channel>Scope:  $($scope.ScopeId)  -AddressesInUse</channel>
+        <channel>Scope: $($scope.ScopeId)  -AddressesInUse</channel>
         <unit>Custom</unit>
         <customUnit>IP</customUnit>
         <mode>Absolute</mode>
