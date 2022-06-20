@@ -17,7 +17,6 @@ $Searchbase
 )
 
 
-
 #region: W10 Version List from https://docs.microsoft.com/de-de/windows/release-information/    
 $Branch1507 = "*10240*"  
 $Branch1511 = "*10586*"
@@ -29,25 +28,41 @@ $Branch1809 = "*17763*"
 $Branch1903 = "*18362*"
 $Branch1909 = "*18363*"
 $Branch2004 = "*19041*"
+$Branch20H2 = "*19042*"
 #endregion
 
 
+
+#region Queries
+[array]$W10ClientCount = ((Get-ADComputer -SearchBase $Searchbase -Filter {OperatingSystem -Like "Windows 10*" -and (Enabled -eq $true)} -Property OperatingSystemVersion, OperatingSystemVersion)) 
+# only query AD once and re-use results for better performance
+[array]$Branch1507Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1507 
+[array]$Branch1511Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1511
+[array]$Branch1607Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1607
+[array]$Branch1703Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1703
+[array]$Branch1709Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1709
+[array]$Branch1803Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1803
+[array]$Branch1809Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1809
+[array]$Branch1903Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1903
+[array]$Branch1909Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch1909
+[array]$Branch2004Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch2004
+[array]$Branch20H2Count = $W10ClientCount|where OperatingSystemVersion -Like $Branch20H2
+#endregion Queries
 
 
 #region: Generate text for sensor
-[String]$Version = (((Get-ADComputer -SearchBase $Searchbase -Filter {OperatingSystem -Like "Windows 10*" -and (Enabled -eq $true)} -Property *))).OperatingSystemVersion |Sort-Object -Descending |Select-Object -First 1
+[String]$Version = (((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true)} -Property OperatingSystemVersion))).OperatingSystemVersion |Sort-Object -Descending |Select-Object -First 1
 [String]$Version = $Version.substring(6).TrimEnd(")")
 
-[array]$Branch2004Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch2004)} -Property *))
-$Count =$Branch2004Count.Count 
+$Count = ($W10ClientCount|where OperatingSystemVersion -Like $Version).count
 
-If($Version -gt $Branch2004.substring(1).TrimEnd("*")){$Text = "Update Sensor with new W10 Version. Check https://docs.microsoft.com/de-de/windows/release-information/";$NewBranch = $Count}else{$text = "All W10 Branches are known.";$NewBranch = 0}
+If($Version -gt $Branch20H2.substring(1).TrimEnd("*")){$Text = "Update Sensor with new W10 Version. Check https://docs.microsoft.com/de-de/windows/release-information/";$NewBranch = $Count}else{$text = "All W10 Branches are known.";$NewBranch = 0}
 #endregion
+
 
 
 #region: XML Output for PRTG
 Write-Host "<prtg>" 
-[array]$W10ClientCount = ((Get-ADComputer -SearchBase $Searchbase -Filter {OperatingSystem -Like "Windows 10*"} -and (Enabled -eq $true) -Property *)) 
 $Count =$W10ClientCount.Count 
 Write-Host "<result>"
                "<channel>All W10 Clients</channel>"
@@ -58,64 +73,59 @@ Write-Host "<result>"
                "<channel>New Branch</channel>"
                "<value>$NewBranch</value>"
                "</result>"
-[array]$Branch1507Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1507)} -Property *))
 $Count =$Branch1507Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1507 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1511Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1511)} -Property *))
 $Count =$Branch1511Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1511 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1607Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -like $Branch1607)}-Property *))
 $Count =$Branch1607Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1607 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1703Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1703)} -Property *))
 $Count =$Branch1703Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1703 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1709Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1709)} -Property *)) 
 $Count =$Branch1709Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1709 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1803Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1803)} -Property *))
 $Count =$Branch1803Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1803 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1809Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1809)} -Property *))
 $Count =$Branch1809Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1809 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1903Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1903)} -Property *))
 $Count =$Branch1903Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1903 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch1909Count = ((Get-ADComputer -SearchBase $Searchbase -Filter {(OperatingSystem -Like "Windows 10*") -and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch1909)} -Property *))
 $Count =$Branch1909Count.Count 
                Write-Host "<result>"
                "<channel>Branch 1909 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
-[array]$Branch2004Count = (((Get-ADComputer -SearchBase $Searchbase  -Filter {(OperatingSystem -Like "Windows 10*")-and (Enabled -eq $true) -and (OperatingSystemVersion -Like $Branch2004)} -Property *)))
 $Count =$Branch2004Count.Count 
                Write-Host "<result>"
                "<channel>Branch 2004 Clients</channel>"
+               "<value>$Count</value>"
+               "</result>"
+$Count =$Branch20H2Count.Count 
+               Write-Host "<result>"
+               "<channel>Branch 20H2 Clients</channel>"
                "<value>$Count</value>"
                "</result>"
 
